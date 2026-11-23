@@ -3,7 +3,7 @@
 ## Disclaimer
 Original plugin by https://github.com/janmenzel
 
-updated by olicha@worteks
+updated by olicha@worteks, Philipp Seßner, merrx
 
 ## Updates
 updated the compatibility in the config.xml file

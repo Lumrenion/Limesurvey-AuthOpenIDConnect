@@ -64,8 +64,12 @@ class AuthOpenIDConnect extends AuthPluginBase {
         $clientSecret = $this->get('clientSecret', null, null, false);
         $redirectURL = $this->get('redirectURL', null, null, false);
 
-        if(!$providerURL || !$clientSecret || !$clientID || !$redirectURL){
+        if(!$providerURL || !$clientSecret || !$clientID || !$redirectURL
+            || !is_null($this->api->getRequest()->getParam('noAuthOpenIDConnect'))
+            || ($this->api->getRequest()->getIsPostRequest())
+        ){
             // Display authdb login if necessary plugin settings are missing.
+            // Or ?noAuthOpenIDConnect=true is appended to the login url
             return;
         }
 
@@ -78,13 +82,15 @@ class AuthOpenIDConnect extends AuthPluginBase {
         }
         try {
             if($oidc->authenticate()){
-                $username = $oidc->requestUserInfo('preferred_username');
+                $user_data = $oidc->requestUserInfo();
+                $username = $user_data->preferred_username;
 
                 $user = $this->api->getUserByName($username);
                 if(empty($user)){
                     $user = new User;
                     $user->users_name = $username;
                     $user->setPassword(createPassword());
+                    $user->email = $user_data->email;
                     $user->parent_id = 1;
                     $user->lang = $this->api->getConfigKey('defaultlang', 'en');
 
@@ -127,11 +133,11 @@ class AuthOpenIDConnect extends AuthPluginBase {
         Yii::app()->getRequest()->redirect('/', true, 302);
     }
 
-    protected function updateUser(User $user, OpenIDConnectClient $oidc) {
-        $email = $oidc->requestUserInfo('email');
-        $givenName = $oidc->requestUserInfo('given_name');
-        $familyName = $oidc->requestUserInfo('family_name');
-        $groups = $oidc->requestUserInfo('groups');
+    protected function updateUser(User $user, mixed $user_data) {
+        $email = $user_data->email;
+        $givenName = $user_data->given_name;
+        $familyName = $user_data->family_name;
+        $groups = $user_data->groups ?: [1];
 
         $user->full_name = trim(implode(' ', [$givenName, $familyName]));
         $user->email = $email;
