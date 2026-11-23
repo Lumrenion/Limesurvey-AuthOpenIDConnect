@@ -7,7 +7,7 @@
         <lastUpdate>2026-11-23</lastUpdate>
         <author>Jan Menzel, OliCha@Worteks, Philipp Seßner, merrx</author>
         <authorUrl></authorUrl>
-        <version>1.2.0</version>
+        <version>1.2.2</version>
         <license>GNU General Public License version 2 or later</license>
         <description>OpenID Connect authentication plugin for LimeSurvey</description>
     </metadata>
