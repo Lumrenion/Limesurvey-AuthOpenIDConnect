@@ -100,7 +100,7 @@ class AuthOpenIDConnect extends AuthPluginBase {
                     }
                     // User successfully created.
                 }
-                $this->updateUser($user, $oidc);
+                $this->updateUser($user, $user_data);
 
                 $this->setUsername($user->users_name);
                 $this->setAuthPlugin();
