@@ -8,6 +8,14 @@ updated by olicha@worteks
 ## Updates
 updated the compatibility in the config.xml file
 
+### 1.2.0
+- Added LimeSurvey 7 compatibility (config.xml)
+- Upgraded jumbojett/openid-connect-php to ^1.0 (requires PHP >= 8.0, in line with LimeSurvey 7 which requires PHP >= 8.1)
+
+## Requirements
+- LimeSurvey 6.1+ or 7.x
+- PHP >= 8.0
+
 ## Install
 
 1. Download the plugin.
